@@ -14,12 +14,15 @@ int get_integer_with_prompt(string prompt)
 
 	do {
 		if (cin.fail()) {
+			// cin fails to convert to integer, clear the flag.
 			cin.clear();
 			cout << "That's not a number!\n";
+			// flush stdin, so we can get a new value.
 			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}
 		cout << prompt << std::flush;
 	} while (!(cin >> value));
+	// flush stdin, for line returns or other data.
 	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
 	return value;
@@ -30,11 +33,14 @@ string get_string_with_prompt(string prompt)
 	string value;
 
 	if (cin.fail()) {
+		// cin fails to convert to string, clear the flag.
 		cin.clear();
+		// flush stdin, so we can get a new value.
 		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
 	cout << prompt << std::flush;
 	cin >> value;
+	// flush stdin, for line returns or other data.
 	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
 	return value;
@@ -45,6 +51,7 @@ int main()
 	int choice = 0;
 
 	string name = "";
+	// use int for age so we can increment value.
 	int age = 0;
 	string occup = "";
 	string prompt = "-1: Exit\n"
