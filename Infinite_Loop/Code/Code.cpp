@@ -2,44 +2,77 @@
 //
 
 #include <iostream>
+#include <string>
+#include <sstream>
+#include <limits>
 using namespace std;
+
+
+int get_integer_with_prompt(string prompt)
+{
+	int value = 0;
+
+	do {
+		if (cin.fail()) {
+			cin.clear();
+			cout << "That's not a number!\n";
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+		cout << prompt << std::flush;
+	} while (!(cin >> value));
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+	return value;
+}
+
+string get_string_with_prompt(string prompt)
+{
+	string value;
+
+	if (cin.fail()) {
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}
+	cout << prompt << std::flush;
+	cin >> value;
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+	return value;
+}
 
 int main()
 {
 	int choice = 0;
 
 	string name = "";
-	string age = "";
+	int age = 0;
 	string occup = "";
+	string prompt = "-1: Exit\n"
+		"1: Enter Name\n"
+		"2: Enter Age\n"
+		"3: Enter Occupation\n";
 
 	while (choice != -1)
 	{
-		cout << "-1: Exit\n";
-		cout << "1: Enter Name\n";
-		cout << "2: Enter Age\n";
-		cout << "3: Enter Occupation\n";
-		cin >> choice;
-
-		/*if (choice == -1)
-			break;*/
-
+		choice = get_integer_with_prompt(prompt);
+		
+		if (choice == -1) {
+			break;
+		}
 		switch (choice)
 		{
 		case 1:
-			cout << "What is your Name: ";
-			cin >> name;
+			name = get_string_with_prompt("What is your Name: ");
 			break;
 		case 2:
-			cout << "What is your Age? ";
-			cin >> age;
+			age = get_integer_with_prompt("What is your Age? ");
 			break;
 		case 3:
-			cout << "What is your Occupation? ";
-			cin >> occup;
+			occup = get_string_with_prompt("What is your Occupation? ");
 			break;
 		default:
 			// Assume Invalid Menu Choice
-			cout << "Sorry that choice is not valid!";
+			cout << "Sorry that choice is not valid!\n";
 			break;
 		}
 	}
